@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react"
 import "./Kennel.css"
-import { AnimalCard } from "./animal/AnimalCard"
 import { AnimalList } from "./animal/AnimalList"
 import { AnimalProvider } from "./animal/AnimalProvider"
 import { Customer } from "./customer/Customer"
 import { Location } from "./location/Location"
 import { Employee } from "./employee/Employee"
 import { PropsAndState } from "./PropsAndState"
+import { CustomerProvider } from "./customer/CustomerProvider"
+import { CustomerList } from "./customer/CustomerList"
 
 export const Kennel = () => { 
 
@@ -73,6 +74,9 @@ export const Kennel = () => {
         <AnimalProvider>
         <AnimalList />
         </AnimalProvider>
+        <CustomerProvider>
+        <CustomerList />
+        </CustomerProvider>    
     </>    
     )
 }
