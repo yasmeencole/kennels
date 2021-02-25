@@ -1,6 +1,9 @@
 import React from "react"
 import "./Kennel.css"
 import { AnimalCard } from "./animal/AnimalCard"
+import { Customer } from "./customer/Customer"
+import { Location } from "./location/Location"
+import { Employee } from "./employee/Employee";
 
 export const Kennel = () => { 
     const kennel = {
@@ -27,6 +30,24 @@ export const Kennel = () => {
             <AnimalCard />
             <AnimalCard />
             <AnimalCard />
+        </article>
+        <h2>Employees</h2> 
+        <article className="employees">
+            <Employee />
+            <Employee />
+            <Employee />
+        </article>  
+        <h2>Locations</h2>
+        <article className="locations">
+            <Location />
+            <Location />
+        </article>
+        <h2>Customers</h2>
+        <article className="customers">
+            <Customer />
+            <Customer />
+            <Customer />
+            <Customer />
         </article>
     </>    
     )
