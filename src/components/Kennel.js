@@ -8,6 +8,7 @@ import { Employee } from "./employee/Employee"
 import { PropsAndState } from "./PropsAndState"
 import { CustomerProvider } from "./customer/CustomerProvider"
 import { CustomerList } from "./customer/CustomerList"
+import { NavBar } from "./nav/NavBar";
 
 export const Kennel = () => { 
 
@@ -37,6 +38,7 @@ export const Kennel = () => {
 
     <>
         <h2>{kennel.name}</h2>
+        <NavBar />
         <small>Loving care when you're not there.</small>
         <address>
             <div>Visit Us at the {kennel.locations[0].name} Location</div>
@@ -71,6 +73,7 @@ export const Kennel = () => {
             <Customer />
             <Customer />
         </article> */}
+        {/* <ApplicationViews /> */}
         <AnimalProvider>
         <AnimalList />
         </AnimalProvider>
