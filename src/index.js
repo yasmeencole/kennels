@@ -4,7 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Kennel } from './components/Kennel';
 import { BrowserRouter as Router } from "react-router-dom";
-
+// import { BrowserRouter as Router, this is renaming BrowserRouter to Router } from "react-router-dom"; 
 
 //<App /> is a function call
 ReactDOM.render(
