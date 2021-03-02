@@ -5,5 +5,6 @@ export const AnimalCard = ({animalProps}) => (
     <section className="animal">
         <h3 className="animal__name">{animalProps.name}</h3>
         <div className="animal__breed">Breed: {animalProps.breed}</div>
+        <div className="location__address">Location: {animalProps.location.name}</div>
     </section>
 )
