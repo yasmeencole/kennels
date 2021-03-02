@@ -23,7 +23,7 @@ const addAnimal = animalObj => {
         },
         body: JSON.stringify(animalObj)
     })
-    .then(getAnimals)
+    .then(response => response.json())
 }
 
 /*

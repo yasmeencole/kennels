@@ -1,20 +1,22 @@
-import React, { useState } from "react"
+// no longer need this file
 
-export const PropsAndState = ({ yourName }) => {
-    let [countClicks, setCountClicks] = useState(0)
+// import React, { useState } from "react"
 
-    const handleClick = () => {
-    //good practice:
-    //make a copy of state, modifiy it, and then setState to the copy
-    const newCountClicks = ++countClicks
-    setCountClicks(newCountClicks)
-    } 
+// export const PropsAndState = ({ yourName }) => {
+//     let [countClicks, setCountClicks] = useState(0)
 
-    return (
-    <>
-        <h3>Welcome, {yourName} </h3>
-        {/* <p>{countClicks}</p> */}
-        {/* <button onClick={(handleClick)}>Click Me</button> */}
-    </>
-    )
-}
+//     const handleClick = () => {
+//     //good practice:
+//     //make a copy of state, modifiy it, and then setState to the copy
+//     const newCountClicks = ++countClicks
+//     setCountClicks(newCountClicks)
+//     } 
+
+//     return (
+//     <>
+//         <h3>Welcome, {yourName} </h3>
+//         {/* <p>{countClicks}</p> */}
+//         {/* <button onClick={(handleClick)}>Click Me</button> */}
+//     </>
+//     )
+// }
