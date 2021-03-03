@@ -26,6 +26,11 @@ const addAnimal = animalObj => {
     .then(response => response.json())
 }
 
+const getAnimalById = (id) => {
+    return fetch(`http://localhost:8088/animals/${id}?_expand=location&_expand=customer`)
+        .then(res => res.json())
+}
+
 /*
     You return a context provider which has the
     `animals` state, `getAnimals` function,
@@ -36,7 +41,7 @@ const addAnimal = animalObj => {
     <AnimalContext.Provider value={{
     //   animals: animals, 
     //   getAnimals: getAnimals
-        animals, getAnimals, addAnimal
+        animals, getAnimals, addAnimal, getAnimalById
     }}>
         {props.children}
         </AnimalContext.Provider>
