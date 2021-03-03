@@ -22,6 +22,18 @@ const addEmployee = employeeObj => {
     })
     .then(response => response.json())
 }
+
+const getEmployeeById = (id) => {
+    return fetch(`http://localhost:8088/employees/${id}?_expand=location`)
+        .then(res => res.json())
+}
+
+const releaseEmployee = employeeId => {
+    return fetch(`http://localhost:8088/employees/${employeeId}`, {
+        method: "DELETE"
+    })
+    .then(getEmployees)
+}
 /*
     You return a context provider which has the
     `animals` state, `getAnimals` function,
@@ -32,7 +44,7 @@ const addEmployee = employeeObj => {
     <EmployeeContext.Provider value={{
     //   animals: animals, 
     //   getAnimals: getAnimals
-        employees, getEmployees, addEmployee
+        employees, getEmployees, addEmployee, getEmployeeById, releaseEmployee
     }}>
         {props.children}
         </EmployeeContext.Provider>
