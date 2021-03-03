@@ -20,7 +20,7 @@ const addEmployee = employeeObj => {
         },
         body: JSON.stringify(employeeObj)
     })
-    .then(getEmployees)
+    .then(response => response.json())
 }
 /*
     You return a context provider which has the
