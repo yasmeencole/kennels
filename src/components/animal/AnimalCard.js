@@ -11,8 +11,8 @@ export const AnimalCard = ({animalProps, owner, location}) => {
             { animalProps.name }
         </Link>
         </h3>
-        <div className="animal__breed">Breed: {animalProps.breed}</div>
+        {/* <div className="animal__breed">Breed: {animalProps.breed}</div>
         <div className="location__address">Location: {location.name}</div>
-        <div className="location__address">Customer: {owner.name}</div>
+        <div className="location__address">Customer: {owner.name}</div> */}
     </section>)
 }
