@@ -6,8 +6,6 @@ import { LocationContext } from "../location/LocationProvider"
 import { CustomerContext } from "../customer/CustomerProvider"
 import { useHistory } from "react-router-dom";
 
-
-
 export const AnimalList = () => {
 
     const history = useHistory()
