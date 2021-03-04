@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react"
 import { LocationContext } from "../location/LocationProvider"
 import { EmployeeContext } from "../employee/EmployeeProvider"
 import "./Employee.css"
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 
 export const EmployeeForm = () => {
-    const { addEmployee } = useContext(EmployeeContext)
+    const { addEmployee, getEmployeeById, updateEmployee } = useContext(EmployeeContext)
     const { locations, getLocations } = useContext(LocationContext)
     // const { customers, getCustomers } = useContext(CustomerContext)
     /*
@@ -21,122 +21,102 @@ export const EmployeeForm = () => {
         // customerId: 0
     });
 
-    /*
-    Reach out to the world and get customers state
-    and locations state on initialization, so we can provide their data in the form dropdowns
-    */
-    useEffect(() => {
-    getLocations()
-    }, [])
+    //wait for data before button is active. Look at the button to see how it's setting itself to disabled or not based on this state
+const [isLoading, setIsLoading] = useState(true);
 
-    const history = useHistory();
+// Now that the form can be used for editing as well as adding an employee, you need access to the employee id for fetching the employee you want to edit
+const { employeeId } = useParams();
+const history = useHistory();
 
-
-    const handleControlledInputChange = (event) => {
-        /* When changing a state object or array,
-        always create a copy, make changes, and then set state.*/
-        const newEmployee = { ...employee }
-
-        let selectedValue = event.target.value
-        // forms always provide values as strings. But we want to save the ids as numbers. This will cover both customer and location ids
-        if (event.target.id.includes("Id")) {
-            selectedValue = parseInt(selectedValue)
-        }
-        /* Animal is an object with properties.
-        Set the property to the new value
-        using object bracket notation. */
-        newEmployee[event.target.id] = selectedValue
-        // update state
-        setEmployee(newEmployee)
-    }
-
-  //when a field changes, update state. The return will re-render and display based on the values in state
-      // NOTE! What's happening in this function can be very difficult to grasp. Read it over many times and ask a lot questions about it.
-  //Controlled component
-    const handleClickSaveEmployee = (event) => {
-        event.preventDefault() //Prevents the browser from submitting the form
-    
-        const locationId = parseInt(employee.locationId)
-        const customerId = parseInt(employee.customerId)
-    
-        if (locationId === 0 || customerId === 0) {
-            window.alert("Please select a employee and a location")
-        } else {
-          //invoke addAnimal passing animal as an argument.
-          //once complete, change the url and display the animal list
-            addEmployee(employee)
-            .then(() => history.push("/employees"))
-        }
-    }
-
-    const handleNameInputChange = (event) => {
-        const newEmployee = {
-            name: employee.name,
-            locationId: employee.locationId,
-            customerId: employee.customerId
-        }
-
-        newEmployee.name = event.target.value
-        setEmployee(newEmployee)
-    }
-
-    const handleLocationInputChange = (event) => {
-        const newEmployee = {
-            name: employee.name,
-            locationId: employee.locationId,
-            customerId: employee.customerId
-        }
-        newEmployee.locationId = parseInt(event.target.value)
-        setEmployee(newEmployee)
-    }
-
-    // const handleCustomerInputChange = (event) => {
-    //     const newEmployee = {
-    //         name: animal.name,
-    //         breed: animal.breed,
-    //         locationId: animal.locationId,
-    //         customerId: animal.customerId
-    //     }
-    //     newAnimal.customerId = parseInt(event.target.value)
-    //     setAnimal(newEmployee)
-    // }
-
-    return (
-    <form className="employeeForm">
-        <h2 className="employeeForm__title">New Employee</h2>
-        <fieldset>
-            <div className="form-group">
-                <label htmlFor="name">Employee name:</label>
-                <input type="text" id="name" onChange={handleNameInputChange} required autoFocus className="form-control" placeholder="Employee name" value={employee.name}/>
-            </div>
-        </fieldset>
-        <fieldset>
-            <div className="form-group">
-                    <label htmlFor="location">Assign to location: </label>
-                    <select name="locationId" id="locationId" onChange={handleLocationInputChange} className="form-control" value={employee.locationId}>
-                        <option value="0">Select a location</option>
-                        {locations.map(location => (
-                            <option key={location.id} value={location.id}>
-                                {location.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            </fieldset>
-            {/* <fieldset>
-                <div className="form-group">
-                    <label htmlFor="customerId">Customer: </label>
-                    <select value={animal.customerId} name="customer" id="customerId" onChange={handleCustomerInputChange} className="form-control" >
-                        <option value="0">Select a customer</option>
-                        {customers.map(customer => (
-                            <option key={customer.id} value={customer.id}>
-                                {customer.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-        </fieldset> */}
-        <button className="btn btn-primary" onClick={handleClickSaveEmployee}>Save Employee</button>
-    </form>
-    )
+//when field changes, update state. This causes a re-render and updates the view.
+//Controlled component
+const handleControlledInputChange = (event) => {
+    //When changing a state object or array,
+    //always create a copy make changes, and then set state.
+    const newEmployee = { ...employee }
+    //animal is an object with properties.
+    //set the property to the new value
+    newEmployee[event.target.id] = event.target.value
+    //update state
+    setEmployee(newEmployee)
 }
+
+const handleSaveEmployee = () => {
+    if (parseInt(employee.locationId) === 0) {
+        window.alert("Please select a location")
+    } else {
+    //disable the button - no extra clicks
+    setIsLoading(true);
+    // This is how we check for whether the form is being used for editing or creating. If the URL that got us here has an id number in it, we know we want to update an existing record of an animal
+    if (employeeId){
+        //PUT - update
+        updateEmployee({
+            id: employee.id,
+            name: employee.name,
+            locationId: parseInt(employee.locationId),
+        })
+        .then(() => history.push(`/employees/detail/${employee.id}`))
+    }else {
+        //POST - add
+        addEmployee({
+            name: employee.name,
+            locationId: parseInt(employee.locationId),
+        })
+        .then(() => history.push("/employees"))
+    }
+    }
+}
+
+// Get locations. If employeeId is in the URL, getEmployeeById
+useEffect(() => {
+    getLocations().then(() => {
+    if (employeeId) {
+        getEmployeeById(employeeId)
+        .then(employee => {
+            setEmployee(employee)
+            setIsLoading(false)
+        })
+    } else {
+        setIsLoading(false)
+    }
+    })
+}, [])
+
+return (
+    <form className="employeeForm">
+    <h2 className="employeeForm__title">{employeeId ? "Edit Employee" : "Add Employee"}</h2>
+    <fieldset>
+        <div className="form-group">
+        <label htmlFor="employeeName">Employee name: </label>
+        <input type="text" id="name" required autoFocus className="form-control"
+        placeholder="Employee name"
+        onChange={handleControlledInputChange}
+        value={employee.name}/>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div className="form-group">
+        <label htmlFor="location">Assign to location: </label>
+        <select value={employee.locationId} id="locationId" className="form-control" onChange={handleControlledInputChange}>
+            <option value="0">Select a location</option>
+            {locations.map(location => (
+            <option key={location.id} value={location.id}>
+                {location.name}
+            </option>
+            ))}
+        </select>
+        </div>
+    </fieldset>
+    <button className="btn btn-primary"
+        disabled={isLoading}
+        onClick={event => {
+        event.preventDefault() // Prevent browser from submitting the form and refreshing the page
+        handleSaveEmployee()
+        }}>
+    {employeeId ? "Save Employee" : "Add Employee"}</button>
+    </form>
+)
+}
+
+
+
