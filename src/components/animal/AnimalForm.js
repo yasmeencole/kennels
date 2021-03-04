@@ -133,7 +133,7 @@ return (
         event.preventDefault() // Prevent browser from submitting the form and refreshing the page
         handleSaveAnimal()
         }}>
-    {animalId ? "Save Animal" : "Add Animal"}</button>
+    {animalId ? "Save Animal" : "Submit"}</button>
     </form>
 )
 }
