@@ -7,12 +7,47 @@ export const CustomerContext = createContext()
 export const CustomerProvider = (props) => {
     const [customers, setCustomers] = useState([])
 
+    const [ searchTerms, setSearchTerms ] = useState("")
+
     const getCustomers = () => {
     return fetch("http://localhost:8088/customers")
         .then(response => response.json())
         .then(customersData => setCustomers(customersData))
 }
 
+const addCustomer = customerObj => {
+    return fetch("http://localhost:8088/customers", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(customerObj)
+    })
+    .then(response => response.json())
+}
+
+const getCustomerById = (id) => {
+    return fetch(`http://localhost:8088/customers/${id}`)
+        .then(res => res.json())
+}
+
+const releaseCustomer = customerId => {
+    return fetch(`http://localhost:8088/customers/${customerId}`, {
+        method: "DELETE"
+    })
+    .then(getCustomers)
+}
+
+const updateCustomer = customer => {
+    return fetch(`http://localhost:8088/customers/${customer.id}`, {
+        method: "PUT",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify(customer)
+    })
+        .then(getCustomers)
+    }
 /*
     You return a context provider which has the
     `animals` state, `getAnimals` function,
@@ -23,7 +58,7 @@ export const CustomerProvider = (props) => {
     <CustomerContext.Provider value={{
     //   animals: animals, 
     //   getAnimals: getAnimals
-        customers, getCustomers
+        customers, getCustomers, addCustomer, getCustomerById, releaseCustomer, updateCustomer, searchTerms, setSearchTerms
     }}>
         {props.children}
         </CustomerContext.Provider>

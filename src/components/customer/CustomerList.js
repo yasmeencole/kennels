@@ -1,28 +1,45 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useState } from "react"
 import { Customer } from "./Customer"
 import "./Customer.css"
 import { CustomerContext } from "./CustomerProvider"
+import { useHistory } from "react-router-dom";
+
 
 export const CustomerList = () => {
-  // This state changes when `getAnimals()` is invoked below
-    const { customers, getCustomers } = useContext(CustomerContext)
+    // This state changes when `getCustomers()` is invoked below
+    const { customers, getCustomers, searchTerms } = useContext(CustomerContext)
 
+    const [ filteredCustomers, setFiltered ] = useState([])
+    const history = useHistory()
 
     useEffect(() => {
-    console.log("Fetching customers data from API")
-    getCustomers()
+        getCustomers()
     }, [])
+
+    useEffect(() => {
+        if (searchTerms !== "") {
+            // If the search field is not blank, display matching customers
+            const subset = customers.filter(customer => customer.name.toLowerCase().includes(searchTerms))
+            setFiltered(subset)
+        } else {
+            // If the search field is blank, display all customers
+            setFiltered(customers)
+        }
+        }, [searchTerms, customers])
 
     return (
     <>
-        <h4>Customers</h4>
-        <article className="customers">
+        <h1>Customers</h1>
+        <button onClick={() => { history.push("/customers/create") }}>Add Customer</button>
+
+        <div className="customers">
         {
-            customers.map(customersObject => {
-            return <Customer key={customersObject.id} customerProps={customersObject} />
+            filteredCustomers.map(customersObject => {
+            return <Customer key={customersObject.id} customer={customersObject} />
         })
         }
-        </article>
+        </div>
     </>
 )
 }
+

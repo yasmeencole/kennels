@@ -11,6 +11,7 @@ export const AnimalForm = () => {
     const { customers, getCustomers } = useContext(CustomerContext)
 
     //for edit, hold on to state of animal in this view
+    // object with key value pairs
 const [animal, setAnimal] = useState({
     name: "",
     breed: "",
@@ -30,6 +31,7 @@ const history = useHistory();
 const handleControlledInputChange = (event) => {
     //When changing a state object or array,
     //always create a copy make changes, and then set state.
+    // { ...animal } is a spread operator
     const newAnimal = { ...animal }
     //animal is an object with properties.
     //set the property to the new value
@@ -45,6 +47,7 @@ const handleSaveAnimal = () => {
     //disable the button - no extra clicks
     setIsLoading(true);
     // This is how we check for whether the form is being used for editing or creating. If the URL that got us here has an id number in it, we know we want to update an existing record of an animal
+    // this section will prefill this edit form with the available information
     if (animalId){
         //PUT - update
         updateAnimal({
@@ -106,9 +109,9 @@ return (
         <label htmlFor="location">Assign to location: </label>
         <select value={animal.locationId} id="locationId" className="form-control" onChange={handleControlledInputChange}>
             <option value="0">Select a location</option>
-            {locations.map(l => (
-            <option key={l.id} value={l.id}>
-                {l.name}
+            {locations.map(location => (
+            <option key={location.id} value={location.id}>
+                {location.name}
             </option>
             ))}
         </select>
@@ -119,9 +122,9 @@ return (
         <label htmlFor="customer">Customer: </label>
         <select value={animal.customerId} id="customerId" className="form-control" onChange={handleControlledInputChange}>
             <option value="0">Select a customer</option>
-            {customers.map(c => (
-            <option key={c.id} value={c.id}>
-                {c.name}
+            {customers.map(customer => (
+            <option key={customer.id} value={customer.id}>
+                {customer.name}
             </option>
             ))}
         </select>
