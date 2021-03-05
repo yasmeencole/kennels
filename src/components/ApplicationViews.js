@@ -4,22 +4,25 @@ import React from "react"
 import { Route } from "react-router-dom"
 import { Home } from "./Home"
 import { AnimalList } from "./animal/AnimalList"
-import { AnimalProvider } from "./animal/AnimalProvider"
-import { CustomerList } from "./customer/CustomerList"
-import { CustomerProvider } from "./customer/CustomerProvider"
 import { EmployeeList } from "./employee/EmployeeList"
+import { CustomerList } from "./customer/CustomerList"
+import { LocationList } from "./location/LocationList";
+import { AnimalProvider } from "./animal/AnimalProvider"
+import { CustomerProvider } from "./customer/CustomerProvider"
 import { EmployeeProvider } from "./employee/EmployeeProvider"
 import { LocationProvider } from "./location/LocationProvider";
-import { LocationList } from "./location/LocationList";
 import { AnimalForm } from "./animal/AnimalForm";
 import { EmployeeForm } from "./employee/EmployeeForm";
 import { CustomerForm } from "./customer/CustomerForm";
+import { LocationForm } from "./location/LocationForm";
 import { AnimalDetail } from "./animal/AnimalDetail"
 import { EmployeeDetail } from "./employee/EmployeeDetail";
 import { CustomerDetail } from "./customer/CustomerDetail";
+import { LocationDetail } from "./location/LocationDetail";
 import { AnimalSearch } from "./animal/AnimalSearch"
 import { EmployeeSearch } from "./employee/EmployeeSearch";
 import { CustomerSearch } from "./customer/CustomerSearch";
+import { LocationSearch } from "./location/LocationSearch";
 
 
 export const ApplicationViews = () => {
@@ -32,9 +35,19 @@ export const ApplicationViews = () => {
 
             {/* Render the locations list when http://localhost:3000/locations */}
                 <LocationProvider>
-                    <Route path="/locations">
+                    <Route exact path="/locations">
+                        <LocationSearch />
                         <LocationList />
                     </Route>
+                    <Route path="/locations/create">
+                        <LocationForm />
+                    </Route>
+                    <Route path="/locations/detail/:locationId(\d+)">
+                        <LocationDetail/>
+                    </Route>
+                    <Route path="/locations/edit/:locationId(\d+)">
+                        <LocationForm />
+                    </Route>        
                 </LocationProvider>    
             
             {/* Render the animal list when http://localhost:3000/animals */}
