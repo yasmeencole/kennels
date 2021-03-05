@@ -19,7 +19,7 @@ import { EmployeeDetail } from "./employee/EmployeeDetail";
 import { CustomerDetail } from "./customer/CustomerDetail";
 import { AnimalSearch } from "./animal/AnimalSearch"
 import { EmployeeSearch } from "./employee/EmployeeSearch";
-// import { CustomerSearch } from "./customer/CustomerSearch";
+import { CustomerSearch } from "./customer/CustomerSearch";
 
 
 export const ApplicationViews = () => {
@@ -61,7 +61,7 @@ export const ApplicationViews = () => {
             {/* Render the customer list when http://localhost:3000/customers */}
                 <CustomerProvider>
                     <Route exact path="/customers">
-                        {/* <CustomerSearch /> */}
+                        <CustomerSearch />
                         <CustomerList />
                     </Route>
                     <Route path="/customers/create">
