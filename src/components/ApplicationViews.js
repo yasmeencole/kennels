@@ -13,10 +13,13 @@ import { LocationProvider } from "./location/LocationProvider";
 import { LocationList } from "./location/LocationList";
 import { AnimalForm } from "./animal/AnimalForm";
 import { EmployeeForm } from "./employee/EmployeeForm";
+import { CustomerForm } from "./customer/CustomerForm";
 import { AnimalDetail } from "./animal/AnimalDetail"
 import { EmployeeDetail } from "./employee/EmployeeDetail";
+import { CustomerDetail } from "./customer/CustomerDetail";
 import { AnimalSearch } from "./animal/AnimalSearch"
 import { EmployeeSearch } from "./employee/EmployeeSearch";
+// import { CustomerSearch } from "./customer/CustomerSearch";
 
 
 export const ApplicationViews = () => {
@@ -57,8 +60,18 @@ export const ApplicationViews = () => {
 
             {/* Render the customer list when http://localhost:3000/customers */}
                 <CustomerProvider>
-                    <Route path="/customers">
+                    <Route exact path="/customers">
+                        {/* <CustomerSearch /> */}
                         <CustomerList />
+                    </Route>
+                    <Route path="/customers/create">
+                        <CustomerForm />
+                    </Route>
+                    <Route path="/customers/detail/:customerId(\d+)">
+                        <CustomerDetail/>
+                    </Route>
+                    <Route path="/customers/edit/:customerId(\d+)">
+                        <CustomerForm />
                     </Route>
                 </CustomerProvider>
 
