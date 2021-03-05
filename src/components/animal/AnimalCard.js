@@ -3,7 +3,7 @@ import "./Animal.css"
 import { Link } from "react-router-dom"
 
 
-export const AnimalCard = ({animal, owner, location}) => {
+export const AnimalCard = ({animal}) => {
     return (
     <section className="animal">
         <h3 className="animal__name">

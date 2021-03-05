@@ -34,8 +34,8 @@ export const CustomerList = () => {
 
         <div className="customers">
         {
-            filteredCustomers.map(customersObject => {
-            return <Customer key={customersObject.id} customer={customersObject} />
+            filteredCustomers.map(customer => {
+            return <Customer key={customer.id} customer={customer} />
         })
         }
         </div>
