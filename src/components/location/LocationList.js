@@ -1,11 +1,16 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useState } from "react"
 import { Location } from "./Location"
 import "./Location.css"
 import { LocationContext } from "./LocationProvider"
+import { useHistory } from "react-router-dom"
+
 
 export const LocationList = () => {
   // This state changes when `getAnimals()` is invoked below
-    const { locations, getLocations } = useContext(LocationContext)
+    const { locations, getLocations, searchTerms } = useContext(LocationContext)
+
+    const [ filteredLocations, setFiltered ] = useState([])
+    const history = useHistory()
 
 
     useEffect(() => {
@@ -13,16 +18,30 @@ export const LocationList = () => {
     getLocations()
     }, [])
 
+    // useEffect dependency array with dependencies - will run if dependency changes (state)
+// searchTerms will cause a change
+    useEffect(() => {
+        if (searchTerms !== "") {
+            // If the search field is not blank, display matching locations
+            const subset = locations.filter(location => location.name.toLowerCase().includes(searchTerms))
+            setFiltered(subset)
+        } else {
+            // If the search field is blank, display all locations
+            setFiltered(locations)
+        }
+        }, [searchTerms, locations])
+
     return (
     <>
         <h4>Locations</h4>
-        <article className="locations">
+        <button onClick={() => history.push("/locations/create")}>Add Location</button>
+        <div className="locations">
         {
-            locations.map(locationsObject => {
-            return <Location key={locationsObject.id} locationProps={locationsObject} />
+        filteredLocations.map(location => {
+            return <Location key={location.id} location={location} />
         })
         }
-        </article>
+        </div>
     </>
 )
 }
